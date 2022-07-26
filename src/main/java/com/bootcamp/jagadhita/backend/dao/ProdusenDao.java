@@ -9,11 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository //anotasi yang dibutuhkan pada 'dao'
 public class ProdusenDao {
 
-    //anotasi yang dibutuhkan pada kelas
+    @Autowired//anotasi yang dibutuhkan pada kelas
     NamedParameterJdbcTemplate jdbcTemplate;
 
     public Produsen findId(Integer id) {
@@ -23,6 +24,22 @@ public class ProdusenDao {
         map.addValue("idProdusen", id);
 
         return jdbcTemplate.queryForObject(query, map, new RowMapper<Produsen>() {
+            @Override
+            public Produsen mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Produsen produsen = new Produsen();
+                produsen.setId(rs.getInt("id"));
+                produsen.setNama(rs.getString("nama"));
+                produsen.setKode(rs.getString("kode"));
+                produsen.setAlamat(rs.getString("alamat"));
+                return produsen;
+            }
+        });
+    }
+
+    public List<Produsen> findAll() {
+        String query = "SELECT id, nama, kode, alamat\n" +
+                "FROM public.produsen";
+        return jdbcTemplate.query(query, new RowMapper<Produsen>() {
             @Override
             public Produsen mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Produsen produsen = new Produsen();

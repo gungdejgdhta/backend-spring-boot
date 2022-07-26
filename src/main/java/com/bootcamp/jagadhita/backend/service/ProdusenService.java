@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service //repository yang digunakan pada service
 public class ProdusenService {
 
@@ -14,5 +16,9 @@ public class ProdusenService {
 
     public Produsen findId(Integer id) throws EmptyResultDataAccessException {
         return dao.findId(id);
+    }
+
+    public List<Produsen> findAll() {
+        return dao.findAll();
     }
 }

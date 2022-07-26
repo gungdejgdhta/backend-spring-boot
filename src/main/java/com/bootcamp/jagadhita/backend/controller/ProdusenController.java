@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bootcamp.jagadhita.backend.service.ProdusenService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/produsen")
 @Slf4j
@@ -29,5 +31,10 @@ public class ProdusenController {
             //return null; //digunakan jika tipe datanya Produsen
             return ResponseEntity.badRequest().body("Data tidak ditemukan");
         }
-    };
+    }
+
+    @GetMapping("")
+    public List<Produsen> findAll(){
+        return service.findAll();
+    }
 }
