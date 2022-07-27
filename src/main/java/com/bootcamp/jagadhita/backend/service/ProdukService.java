@@ -1,10 +1,13 @@
 package com.bootcamp.jagadhita.backend.service;
 
 import com.bootcamp.jagadhita.backend.dao.ProdukDao;
+import com.bootcamp.jagadhita.backend.dto.ProdukDto;
+import com.bootcamp.jagadhita.backend.dto.ProdusenDto;
 import com.bootcamp.jagadhita.backend.entity.Produk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +23,19 @@ public class ProdukService {
 
     public List<Produk> findAll() {
         return dao.findAll();
+    }
+
+    @Transactional
+    public Integer create(ProdukDto.Create produk) {
+        return dao.create(produk);
+    }
+
+    public void update(ProdukDto.Update produk) {
+        dao.update(produk);
+    }
+
+    public void delete(Integer id) {
+        dao.delete(id);
     }
 
 }
