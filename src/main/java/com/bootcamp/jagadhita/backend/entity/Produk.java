@@ -5,6 +5,9 @@ public class Produk {
     String nama;
     String jenis;
     String berat;
+    Produsen produsen;
+    // Meskipun pada database menggunakan variable produsen_id namun pada
+    // penulisan produsen untuk menyambungkan dari FK produsen_id
 
     public Integer getId() {
         return id;
@@ -36,5 +39,13 @@ public class Produk {
 
     public void setBerat(String berat) {
         this.berat = berat;
+    }
+
+    public Produsen getProdusen() {
+        return produsen;
+    }
+
+    public void setProdusen(Produsen produsen) {
+        this.produsen = produsen;
     }
 }

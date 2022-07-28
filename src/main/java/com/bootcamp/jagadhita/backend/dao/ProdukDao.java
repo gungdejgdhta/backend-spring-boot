@@ -2,6 +2,7 @@ package com.bootcamp.jagadhita.backend.dao;
 
 import com.bootcamp.jagadhita.backend.dto.ProdukDto;
 import com.bootcamp.jagadhita.backend.entity.Produk;
+import com.bootcamp.jagadhita.backend.entity.Produsen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -23,8 +24,14 @@ public class ProdukDao {
     NamedParameterJdbcTemplate jdbcTemplate;
 
     public Produk findId(Integer id) {
-        String query = "SELECT id, nama, jenis, berat\n" +
-                "FROM public.produk where id = :idProduk";
+        String query = "SELECT produk.id, produk.nama, produk.jenis, produk.berat,\n" +
+                "produsen.id as produsen_id,\n" +
+                "produsen.nama as produsen_nama,\n" +
+                "produsen.kode as produsen_kode,\n" +
+                "produsen.alamat as produsen_alamat\n" +
+                "FROM public.produk produk\n" +
+                "left join produsen produsen on produk.produsen_id = produsen.id\n" +
+                "WHERE produk.id = :idProduk";
         MapSqlParameterSource map = new MapSqlParameterSource();
         map.addValue("idProduk", id);
 
@@ -36,14 +43,26 @@ public class ProdukDao {
                 produk.setNama(rs.getString("nama"));
                 produk.setJenis(rs.getString("jenis"));
                 produk.setBerat(rs.getString("berat"));
+                Produsen produsen = new Produsen();
+                produsen.setId(rs.getInt("produsen_id"));
+                produsen.setNama(rs.getString("produsen_nama"));
+                produsen.setKode(rs.getString("produsen_kode"));
+                produsen.setAlamat(rs.getString("produsen_alamat"));
+
+                produk.setProdusen(produsen);
                 return produk;
             }
         });
     }
 
     public List<Produk> findAll() {
-        String query = "SELECT id, nama, jenis, berat\n" +
-                "FROM public.produk";
+        String query = "SELECT produk.id, produk.nama, produk.jenis, produk.berat,\n" +
+                "produsen.id as produsen_id,\n" +
+                "produsen.nama as produsen_nama,\n" +
+                "produsen.kode as produsen_kode,\n" +
+                "produsen.alamat as produsen_alamat\n" +
+                "FROM public.produk produk\n" +
+                "left join produsen produsen on produk.produsen_id = produsen.id";
         return jdbcTemplate.query(query, new RowMapper<Produk>() {
             @Override
             public Produk mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -52,6 +71,13 @@ public class ProdukDao {
                 produk.setNama(rs.getString("nama"));
                 produk.setJenis(rs.getString("jenis"));
                 produk.setBerat(rs.getString("berat"));
+                Produsen produsen = new Produsen();
+                produsen.setId(rs.getInt("produsen_id"));
+                produsen.setNama(rs.getString("produsen_nama"));
+                produsen.setKode(rs.getString("produsen_kode"));
+                produsen.setAlamat(rs.getString("produsen_alamat"));
+
+                produk.setProdusen(produsen);
                 return produk;
             }
         });
@@ -59,12 +85,13 @@ public class ProdukDao {
 
     public Integer create(ProdukDto.Create produk) {
         String query = "INSERT INTO public.produk\n" +
-                "(nama, jenis, berat)\n" +
-                "VALUES(:nama, :jenis, :berat)";
+                "(nama, jenis, berat, produsen_id)\n" +
+                "VALUES(:nama, :jenis, :berat, :produsen_id)";
         MapSqlParameterSource map = new MapSqlParameterSource();
         map.addValue("nama", produk.getNama());
         map.addValue("jenis", produk.getJenis());
         map.addValue("berat", produk.getBerat());
+        map.addValue("produsen_id", produk.getProdusen_id());
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(query, map, keyHolder);
@@ -73,13 +100,15 @@ public class ProdukDao {
 
     public void update(ProdukDto.Update produk) {
         String query = "UPDATE public.produk\n" +
-                "SET nama=:nama, jenis=:jenis, berat=:berat\n" +
+                "SET nama=:nama, jenis=:jenis, berat=:berat\n," +
+                "produsen_id=:produsen_id\n" +
                 "WHERE id=:id";
         MapSqlParameterSource map = new MapSqlParameterSource();
         map.addValue("id", produk.getId());
         map.addValue("nama", produk.getNama());
         map.addValue("jenis", produk.getJenis());
         map.addValue("berat", produk.getBerat());
+        map.addValue("produsen_id", produk.getProdusen_id());
         jdbcTemplate.update(query, map);
     }
 
