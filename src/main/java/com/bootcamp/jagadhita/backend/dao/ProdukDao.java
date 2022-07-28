@@ -31,7 +31,7 @@ public class ProdukDao {
                 "produsen.alamat as produsen_alamat\n" +
                 "FROM public.produk produk\n" +
                 "left join produsen produsen on produk.produsen_id = produsen.id\n" +
-                "WHERE produk.id = :idProduk";
+                "WHERE produk.id = :idProduk"; //Tambahkan where produk.id pada findId()
         MapSqlParameterSource map = new MapSqlParameterSource();
         map.addValue("idProduk", id);
 
