@@ -22,23 +22,23 @@ public class TransaksiDetailDao {
                 "produk.nama as produk,\n" +
                 "produsen.nama as produsen,\n" +
                 "produk.harga as harga,\n" +
-                "produk.berat as produk_berat,\n" +
-                "produk.harga as produk_harga\n" +
+                "(transaksi.kuantitas * produk.harga) as totalHarga\n" +
                 "from public.transaksi transaksi\n" +
-                "left join produk produk on transaksi.produk_id = produk.id\n" +
-                "where transaksi.id = :idDetail";
+                "left join public.produk produk on transaksi.produk_id = produk.id\n" +
+                "left join public.produsen produsen on produk.produsen_id = produsen.id\n" +
+                "where transaksi.id=:id";
         MapSqlParameterSource map = new MapSqlParameterSource();
-        map.addValue("idDetail", id);
+        map.addValue("id", id);
         return jdbcTemplate.queryForObject(query, map, new RowMapper<TransaksiDetailDto>() {
             @Override
             public TransaksiDetailDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 TransaksiDetailDto detail = new TransaksiDetailDto();
                 detail.setId(rs.getInt("id"));
-                detail.setProduk(rs.getString("produk_nama"));
-                detail.setProdusen(rs.getString("produsen_nama"));
-                detail.setHarga(rs.getDouble("produk_harga"));
+                detail.setProduk(rs.getString("produk"));
+                detail.setProdusen(rs.getString("produsen"));
+                detail.setHarga(rs.getDouble("harga"));
                 detail.setKuantitas(rs.getInt("kuantitas"));
-                detail.setTotalHarga(rs.getDouble("produk_harga") * rs.getInt("kuantitas"));
+                detail.setTotalHarga(rs.getDouble("totalHarga"));
 
                 return detail;
             }
