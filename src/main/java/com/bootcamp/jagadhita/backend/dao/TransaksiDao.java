@@ -39,6 +39,7 @@ public class TransaksiDao {
                 Transaksi transaksi = new Transaksi();
                 transaksi.setId(rs.getInt("id"));
                 transaksi.setKuantitas(rs.getInt("kuantitas"));
+
                 Produk produk = new Produk();
                 produk.setId(rs.getInt("produk_id"));
                 produk.setNama(rs.getString("produk_nama"));
@@ -50,6 +51,73 @@ public class TransaksiDao {
                 return transaksi;
             }
         });
+    }
+
+    public List<Transaksi> findAllByProduk(Integer id) {
+        String query = "select transaksi.id, transaksi.kuantitas,\n" +
+                "produk.id as produk_id,\n" +
+                "produk.nama as produk_nama,\n" +
+                "produk.jenis as produk_jenis,\n" +
+                "produk.berat as produk_berat,\n" +
+                "produk.harga as produk_harga\n" +
+                "from public.transaksi transaksi\n" +
+                "left join produk produk on transaksi.produk_id = produk.id\n" +
+                "where produk.id = :idProduk";
+
+        MapSqlParameterSource map = new MapSqlParameterSource();
+        map.addValue("idProduk", id);
+
+        return jdbcTemplate.query(query, map, new RowMapper<Transaksi>() {
+            @Override
+            public Transaksi mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Transaksi transaksi = new Transaksi();
+                transaksi.setId(rs.getInt("id"));
+                transaksi.setKuantitas(rs.getInt("kuantitas"));
+
+                Produk produk = new Produk();
+                produk.setId(rs.getInt("produk_id"));
+                produk.setNama(rs.getString("produk_nama"));
+                produk.setJenis(rs.getString("produk_jenis"));
+                produk.setBerat(rs.getString("produk_berat"));
+                produk.setHarga(rs.getDouble("produk_harga"));
+                transaksi.setProduk(produk);
+                return transaksi;
+            }
+        });
+    }
+
+    public List<Transaksi> findAllByIdProdusen(Integer id) {
+        String query = "select transaksi.id, transaksi.kuantitas,\n" +
+                "produk.id as produk_id,\n" +
+                "produk.nama as produk_nama,\n" +
+                "produk.jenis as produk_jenis,\n" +
+                "produk.berat as produk_berat,\n" +
+                "produk.harga as produk_harga\n" +
+                "from public.transaksi transaksi\n" +
+                "left join produk produk on transaksi.produk_id = produk.id\n" +
+                "where produk.produsen_id = :idProdusen";
+
+        MapSqlParameterSource map = new MapSqlParameterSource();
+        map.addValue("idProdusen", id);
+
+        return jdbcTemplate.query(query, map, new RowMapper<Transaksi>() {
+            @Override
+            public Transaksi mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Transaksi transaksi = new Transaksi();
+                transaksi.setId(rs.getInt("id"));
+                transaksi.setKuantitas(rs.getInt("kuantitas"));
+
+                Produk produk = new Produk();
+                produk.setId(rs.getInt("produk_id"));
+                produk.setNama(rs.getString("produk_nama"));
+                produk.setJenis(rs.getString("produk_jenis"));
+                produk.setBerat(rs.getString("produk_berat"));
+                produk.setHarga(rs.getDouble("produk_harga"));
+                transaksi.setProduk(produk);
+                return transaksi;
+            }
+        });
+
     }
 
     public Transaksi findId(Integer id) {

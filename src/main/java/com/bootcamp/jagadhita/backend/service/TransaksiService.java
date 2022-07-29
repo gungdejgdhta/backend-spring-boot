@@ -19,6 +19,14 @@ public class TransaksiService {
         return dao.findAll();
     }
 
+    public List<Transaksi> findAllByIdProduk(Integer id) {
+        return dao.findAllByProduk(id);
+    }
+
+    public List<Transaksi> findAllByIdProdusen(Integer id) {
+        return dao.findAllByIdProdusen(id);
+    }
+
     public Transaksi findId(Integer id) throws EmptyResultDataAccessException {
         return dao.findId(id);
     }

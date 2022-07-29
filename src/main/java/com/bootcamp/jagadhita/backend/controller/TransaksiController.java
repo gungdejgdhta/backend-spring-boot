@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,16 @@ public class TransaksiController {
     @GetMapping("")
     public List<Transaksi> findAll() {
         return service.findAll();
+    }
+
+    @GetMapping("/produk/{id}")
+    public List<Transaksi> findAllByIdProduk(@PathVariable Integer id) {
+        return service.findAllByIdProduk(id);
+    }
+
+    @GetMapping("/produsen/{id}")
+    public List<Transaksi> findAllByIdProdusen(@PathVariable Integer id) {
+        return service.findAllByIdProdusen(id);
     }
 
     @GetMapping("/{id}")
