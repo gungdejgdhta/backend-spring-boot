@@ -53,7 +53,7 @@ public class TransaksiDao {
         });
     }
 
-    public List<Transaksi> findAllByProduk(Integer id) {
+    public List<Transaksi> findAllByIdProduk(Integer id) {
         String query = "select transaksi.id, transaksi.kuantitas,\n" +
                 "produk.id as produk_id,\n" +
                 "produk.nama as produk_nama,\n" +

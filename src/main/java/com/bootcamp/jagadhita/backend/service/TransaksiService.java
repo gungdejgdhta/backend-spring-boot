@@ -20,7 +20,7 @@ public class TransaksiService {
     }
 
     public List<Transaksi> findAllByIdProduk(Integer id) {
-        return dao.findAllByProduk(id);
+        return dao.findAllByIdProduk(id);
     }
 
     public List<Transaksi> findAllByIdProdusen(Integer id) {
