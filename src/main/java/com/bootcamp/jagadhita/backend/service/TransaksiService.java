@@ -6,6 +6,7 @@ import com.bootcamp.jagadhita.backend.entity.Transaksi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,14 +32,17 @@ public class TransaksiService {
         return dao.findId(id);
     }
 
+    @Transactional
     public Integer create(TransaksiDto.Create transaksi) {
         return dao.create(transaksi);
     }
 
+    @Transactional
     public void update(TransaksiDto.Update transaksi) {
         dao.update(transaksi);
     }
 
+    @Transactional
     public void delete(Integer id) {
         dao.delete(id);
     }
