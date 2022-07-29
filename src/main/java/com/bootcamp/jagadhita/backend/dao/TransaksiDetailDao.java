@@ -26,9 +26,9 @@ public class TransaksiDetailDao {
                 "from public.transaksi transaksi\n" +
                 "left join public.produk produk on transaksi.produk_id = produk.id\n" +
                 "left join public.produsen produsen on produk.produsen_id = produsen.id\n" +
-                "where transaksi.id=:id";
+                "where transaksi.id=:idDetail";
         MapSqlParameterSource map = new MapSqlParameterSource();
-        map.addValue("id", id);
+        map.addValue("idDetail", id);
         return jdbcTemplate.queryForObject(query, map, new RowMapper<TransaksiDetailDto>() {
             @Override
             public TransaksiDetailDto mapRow(ResultSet rs, int rowNum) throws SQLException {
