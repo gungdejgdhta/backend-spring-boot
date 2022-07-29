@@ -26,4 +26,12 @@ public class TransaksiService {
     public Integer create(TransaksiDto.Create transaksi) {
         return dao.create(transaksi);
     }
+
+    public void update(TransaksiDto.Update transaksi) {
+        dao.update(transaksi);
+    }
+
+    public void delete(Integer id) {
+        dao.delete(id);
+    }
 }

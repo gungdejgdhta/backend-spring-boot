@@ -55,4 +55,41 @@ public class TransaksiController {
             return ResponseEntity.ok(output);
         }
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<Map<String, Object>> update
+            (@RequestBody @Valid TransaksiDto.Update transaksi,
+             BindingResult result) {
+        Map<String, Object> output = new HashMap<>();
+        if (result.hasErrors()) {
+            output.put("status", "Update Data Gagal");
+            output.put("errors", result.getAllErrors());
+            return ResponseEntity.ok().body(output);
+        } else {
+            try {
+                service.findId(transaksi.getId());
+                service.update(transaksi);
+                output.put("status", "Update Data Berhasil");
+                return ResponseEntity.ok().body(output);
+            } catch (EmptyResultDataAccessException e) {
+                output.put("status", "Id Tidak Ditemukan");
+                return ResponseEntity.badRequest().body(output);
+            }
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map<String, Object>> delete
+            (@PathVariable Integer id) {
+        Map<String, Object> output = new HashMap<>();
+        try {
+            service.findId(id);
+            service.delete(id);
+            output.put("status", "Delete Data Berhasil");
+            return ResponseEntity.ok(output);
+        } catch (EmptyResultDataAccessException e) {
+            output.put("status", "Id Tidak Ditemukan");
+            return ResponseEntity.badRequest().body(output);
+        }
+    }
 }

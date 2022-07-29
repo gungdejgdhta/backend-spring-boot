@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class TransaksiDao {
@@ -77,7 +78,6 @@ public class TransaksiDao {
                 produk.setJenis(rs.getString("produk_jenis"));
                 produk.setBerat(rs.getString("produk_berat"));
                 produk.setHarga(rs.getDouble("produk_harga"));
-
                 transaksi.setProduk(produk);
                 return transaksi;
             }
@@ -95,5 +95,24 @@ public class TransaksiDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(query, map, keyHolder);
         return (Integer) keyHolder.getKeys().get("id");
+    }
+
+    public void update(TransaksiDto.Update transaksi) {
+        String query = "UPDATE public.transaksi\n" +
+                "SET produk_id=:produk_id, kuantitas=:kuantitas\n" +
+                "WHERE id=:id";
+        MapSqlParameterSource map = new MapSqlParameterSource();
+        map.addValue("id", transaksi.getId());
+        map.addValue("kuantitas", transaksi.getKuantitas());
+        map.addValue("produk_id", transaksi.getProduk_id());
+        jdbcTemplate.update(query, map);
+    }
+
+    public void delete(Integer id) {
+        String query = "DELETE FROM public.transaksi\n" +
+                "WHERE id=:id";
+        MapSqlParameterSource map = new MapSqlParameterSource();
+        map.addValue("id", id);
+        jdbcTemplate.update(query, map);
     }
 }

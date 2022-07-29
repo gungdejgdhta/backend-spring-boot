@@ -27,15 +27,14 @@ public class TransaksiDto {
 
         @Min(1)
         @NotNull
+        Integer id;
+
+        @Min(1)
+        @NotNull
         Integer produk_id;
 
         @Min(1)
         @NotNull
         Integer kuantitas;
-
-
-        @Min(1)
-        @NotNull
-        Integer id;
     }
 }
