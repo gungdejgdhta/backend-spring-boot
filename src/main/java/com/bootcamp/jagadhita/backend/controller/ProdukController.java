@@ -1,7 +1,6 @@
 package com.bootcamp.jagadhita.backend.controller;
 
 import com.bootcamp.jagadhita.backend.dto.ProdukDto;
-import com.bootcamp.jagadhita.backend.dto.ProdusenDto;
 import com.bootcamp.jagadhita.backend.entity.Produk;
 import com.bootcamp.jagadhita.backend.service.ProdukService;
 import lombok.extern.slf4j.Slf4j;
